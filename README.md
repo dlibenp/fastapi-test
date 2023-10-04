@@ -16,3 +16,7 @@
 
 ### Test:
 * ⚡ python -m unittest test/test_order.py
+
+### Create docker image:
+* ⚡ docker build -t fastapi-test .
+* ⚡ docker run -d -p 8000:8000 fastapi-test
