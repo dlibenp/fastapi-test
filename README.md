@@ -3,7 +3,7 @@ Backend developer test use fastapi
 
 ### Install
 * ⚡ create dir: mkdir dirname && cd dirname
-* ⚡ clone repository: git clone https://github.com/dlibenp/crypto_scraper.git
+* ⚡ clone repository: git clone https://github.com/dlibenp/fastapi-test.git
 * ⚡ create virtual environment: python3 -m venv venv
 * ⚡ init virtual environment: source venv/bin/activate
 * ⚡ install requirenment: pip install -r requirenment.txt
