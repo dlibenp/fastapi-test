@@ -1,5 +1,5 @@
 # fastapi-test
-Backend developer test use fastapi
+## Backend developer test use fastapi
 
 ### Install
 * ⚡ create dir: mkdir dirname && cd dirname
@@ -14,5 +14,5 @@ Backend developer test use fastapi
 ### Use
 * ⚡ curl -X 'POST' 'http://localhost:8000/solution?criterion=completed' -H 'accept: application/json' -H 'Content-Type: application/json' -d '[{"id": 1,"item": "New Order","quantity":1,"price": 1,"status": "completed"}]'
 
-# Test:
+### Test:
 * ⚡ python -m unittest test/test_order.py
