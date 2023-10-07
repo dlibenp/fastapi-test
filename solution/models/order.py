@@ -1,7 +1,9 @@
+from xmlrpc.client import DateTime
 from pydantic import BaseModel, Field
 from typing import Optional
 from enum import Enum
 from uuid import uuid4
+from datetime import datetime
 
 class Status(str, Enum):
     completed = "completed"
@@ -20,3 +22,4 @@ class Order(BaseModel):
     quantity: int = Field(default=0, gt=0)
     price: float = Field(default=0, ge=0, le=1000000)
     status: Status = Field(default=Status.completed)
+    created_at: datetime = Field(default=datetime.now())
