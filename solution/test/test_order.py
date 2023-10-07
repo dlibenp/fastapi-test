@@ -25,7 +25,6 @@ class TestOrder(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), 15.5)
-        print(response.json())
 
 
 if __name__ == '__main__':
