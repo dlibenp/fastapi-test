@@ -9,19 +9,26 @@ router = APIRouter()
 @router.post("/solution")
 async def process_orders(orders: List[Order] = Body(description="Orders list of dictionaries that each represent an order.", embed=True, min_length=1), 
     criterion: Criterion = Query(description="Order criterion that indicate filter")):
+    result = None
     try:
-        result_cache = redis_client.get(orders)
-        if result_cache:
-            logging.info("Data recovered from cache.")
-            return result_cache
-        else:
-            result = round(
-                sum(
-                    map(lambda order: order.price * order.quantity if (order.status == criterion.value) or (criterion.value == criterion.all) else 0, orders)
-                    ), 2
-                )
-            redis_client.set(orders, result, ex=3600)
-            logging.info("Cached data.")
-            return result
+        result = redis_client.get(orders)
+        logging.info("Server connect to cache.")
     except Exception as e:
         logging.error(f"ERROR: {e}")
+    
+    if result:
+        logging.info("Data recovered from cache.")
+        return result
+    else:
+        result = round(
+            sum(
+                map(lambda order: order.price * order.quantity if (order.status == criterion.value) or (criterion.value == criterion.all) else 0, orders)
+                ), 2
+            )
+        try:
+            redis_client.set(orders, result, ex=3600)
+            logging.info("Cached data.")
+        except Exception as e:
+            logging.error(f"ERROR: {e}")
+        finally:
+            return result
