@@ -15,10 +15,10 @@ class TestOrder(unittest.TestCase):
             "/solution?criterion=completed",
             headers={"Accept": "application/json", "Content-Type": "application/json"},
             json=[
-                {"id": 1, "item": "New Order 1", "quantity": 2, "price": 2.5, "status": "completed"},
-                {"id": 2, "item": "New Order 2", "quantity": 4, "price": 1.5, "status": "pending"},
-                {"id": 3, "item": "New Order 3", "quantity": 2, "price": 0.5, "status": "canceled"},
-                {"id": 4, "item": "New Order 4", "quantity": 3, "price": 3.5, "status": "completed"}
+                {"id": 1, "item": "New Order 1", "quantity": 2, "price": 2.5, "status": "completed", "created_at": "2023-10-07T22:56:42.327339"},
+                {"id": 2, "item": "New Order 2", "quantity": 4, "price": 1.5, "status": "pending", "created_at": "2023-10-07T22:56:42.327339"},
+                {"id": 3, "item": "New Order 3", "quantity": 2, "price": 0.5, "status": "canceled", "created_at": "2023-10-07T22:56:42.327339"},
+                {"id": 4, "item": "New Order 4", "quantity": 3, "price": 3.5, "status": "completed", "created_at": "2023-10-07T22:56:42.327339"}
             ],
         )
         self.assertEqual(response.status_code, 200)

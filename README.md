@@ -34,7 +34,7 @@ curl -X 'POST' 'https://localhost:8000/solution?criterion=completed' -H 'accept:
 -d '{
    "orders": [
       { "id": "1b668a45-1473-4769-9984-bd08083e38be", "item": "New Order", "quantity": 3, "price": 2, "status": "completed",
-      "created_at": 2023-10-07T22:56:42.327339" }
+      "created_at": "2023-10-07T22:56:42.327339" }
    ]
 }'
 ```
