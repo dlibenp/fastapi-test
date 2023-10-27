@@ -23,3 +23,13 @@ class Order(BaseModel):
     price: float = Field(default=0, ge=0, le=1000000)
     status: Status = Field(default=Status.completed)
     created_at: datetime = Field(default=datetime.now())
+    
+    def serialize(self):
+        return {
+            'id': self.id,
+            'item': self.item,
+            'quantity': self.quantity,
+            'price': self.price,
+            'status': self.status,
+            'created_at': self.created_at.isoformat()
+        }
