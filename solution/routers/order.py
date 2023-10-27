@@ -13,8 +13,9 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
     result = None
     try:
         input = json.dumps([item.serialize() for item in orders])
-        result = redis_client.get(input)
+        result = redis_client.get({input: criterion})  # key
         # REDIS ALL ITEMS ---------- [key for key in redis_client.scan_iter("*")]
+        print(f'---------- REDIS ALL ITEMS ---------- {[key for key in redis_client.scan_iter("*")]}')
         logging.info("Server connect to cache.")
     except Exception as e:
         logging.error(f"ERROR START: {e}")
@@ -30,7 +31,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
             )
         try:
             keyval = json.dumps([item.serialize() for item in orders])
-            redis_client.set(keyval, result, ex=300)
+            redis_client.set({keyval: criterion}, result, ex=300)  # key, value, duration
             logging.info("Cached data.")
         except Exception as e:
             logging.error(f"ERROR: {e}")
