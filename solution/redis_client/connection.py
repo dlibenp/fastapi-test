@@ -14,6 +14,7 @@ try:
     #    ssl=bool(getenv("REDIS_SSL"))
     #)
     redis_client = redis.from_url(os.environ['REDIS_URL'])
+    print(f'*********** REDIS CLIENT *********** {os.environ['REDIS_URL']}')
     logging.info("CONNECTED TO REDIS!!")
 except ConnectionError as cx:
     logging.error(f"CONNECTION ERROR: {cx}")
