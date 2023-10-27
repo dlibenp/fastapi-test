@@ -30,7 +30,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
                 ), 2
             )
         try:
-            redis_client.set(json.dumps(orders), json.dumps(result), ex=3600)
+            redis_client.set(json.dumps(orders, default=vars), json.dumps(result, default=vars), ex=3600)
             logging.info("Cached data.")
         except Exception as e:
             print(f"ERROR END: {e}")
