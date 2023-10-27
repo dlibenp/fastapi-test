@@ -21,8 +21,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
     
     if result:
         logging.info("Data recovered from cache.")
-        print(f'YES: {result.decode("utf-8")}')
-        return result.decode('utf-8')
+        return int(result.decode('utf-8'))
     else:
         result = round(
             sum(
