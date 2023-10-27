@@ -12,6 +12,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
     result = None
     try:
         result = redis_client.get(orders)
+        print(f'********** REDIS ORDER ********** {result}')
         logging.info("Server connect to cache.")
     except Exception as e:
         logging.error(f"ERROR: {e}")
