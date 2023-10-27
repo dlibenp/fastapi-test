@@ -12,7 +12,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
     criterion: Criterion = Query(description="Order criterion that indicate filter")):
     result = None
     try:
-        input = json.dumps({[item.serialize() for item in orders]: criterion})
+        input = f'{criterion}-{json.dumps([item.serialize() for item in orders])}'
         result = redis_client.get(input)  # key
         # REDIS ALL ITEMS ---------- [key for key in redis_client.scan_iter("*")]
         print(f'---------- REDIS ALL ITEMS ---------- {[key for key in redis_client.scan_iter("*")]}')
@@ -30,7 +30,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
                 ), 2
             )
         try:
-            keyval = json.dumps({[item.serialize() for item in orders]: criterion})
+            keyval = f'{criterion}-{json.dumps([item.serialize() for item in orders])}'
             redis_client.set(keyval, result, ex=300)  # key, value, duration
             logging.info("Cached data.")
         except Exception as e:
