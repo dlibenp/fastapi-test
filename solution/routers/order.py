@@ -2,6 +2,7 @@ from fastapi import APIRouter, Query, Body
 from typing import List
 from models.order import Order, Criterion
 from redis_client.connection import redis_client
+import json
 import logging
 
 router = APIRouter()
@@ -11,7 +12,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
     criterion: Criterion = Query(description="Order criterion that indicate filter")):
     result = None
     try:
-        result = redis_client.get(orders)
+        result = redis_client.get(json.loads(orders))
         print(f'********** REDIS ORDER ********** {result}')
         logging.info("Server connect to cache.")
     except Exception as e:
@@ -29,7 +30,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
                 ), 2
             )
         try:
-            redis_client.set(orders, result, ex=3600)
+            redis_client.set(json.dumps(orders), json.dumps(result), ex=3600)
             logging.info("Cached data.")
         except Exception as e:
             print(f"ERROR END: {e}")
