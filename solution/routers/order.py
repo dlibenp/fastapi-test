@@ -12,7 +12,9 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
     criterion: Criterion = Query(description="Order criterion that indicate filter")):
     result = None
     try:
-        result = redis_client.get(json.loads(orders))
+        inputs = json.dumps([item.serialize() for item in orders])
+        result = redis_client.get(json.loads(inputs))
+        print(f'********** REDIS ORDER INPUT ********** {inputs}')
         print(f'********** REDIS ORDER ********** {result}')
         logging.info("Server connect to cache.")
     except Exception as e:
@@ -30,7 +32,8 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
                 ), 2
             )
         try:
-            keyval = json.dumps([item.dict() for item in orders])
+            keyval = json.dumps([item.serialize() for item in orders])
+            print(f'********** keyval ********** {keyval}')
             redis_client.set(keyval, result, ex=60)
             logging.info("Cached data.")
         except Exception as e:
