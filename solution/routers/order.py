@@ -14,18 +14,15 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
     try:
         input = json.dumps([item.serialize() for item in orders])
         result = redis_client.get(input)
-        print(f'---------- ALL ITEMS ---------- {[key for key in redis_client.scan_iter("*")]}')
-        print(f'********** REDIS ORDER INPUT ********** {input}')
-        print(f'********** REDIS ORDER ********** {result}')
+        # REDIS ALL ITEMS ---------- [key for key in redis_client.scan_iter("*")]
         logging.info("Server connect to cache.")
     except Exception as e:
-        print(f"ERROR: {e}")
         logging.error(f"ERROR START: {e}")
     
     if result:
         logging.info("Data recovered from cache.")
-        print(f'YES: {result}')
-        return result
+        print(f'YES: {result.decode("utf-8")}')
+        return result.decode('utf-8')
     else:
         result = round(
             sum(
@@ -34,11 +31,9 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
             )
         try:
             keyval = json.dumps([item.serialize() for item in orders])
-            print(f'********** keyval ********** {keyval}')
             redis_client.set(keyval, result, ex=300)
             logging.info("Cached data.")
         except Exception as e:
-            print(f"ERROR END: {e}")
             logging.error(f"ERROR: {e}")
         finally:
             return result
