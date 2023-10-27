@@ -14,7 +14,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
     try:
         input = json.dumps([item.serialize() for item in orders])
         result = redis_client.get(input)
-        print(f'---------- ALL ITEMS ---------- {redis_client.scan_iter("*")}')
+        print(f'---------- ALL ITEMS ---------- {[key for key in redis_client.scan_iter("*")]}')
         print(f'********** REDIS ORDER INPUT ********** {input}')
         print(f'********** REDIS ORDER ********** {result}')
         logging.info("Server connect to cache.")
