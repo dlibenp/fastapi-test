@@ -15,10 +15,12 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
         print(f'********** REDIS ORDER ********** {result}')
         logging.info("Server connect to cache.")
     except Exception as e:
-        logging.error(f"ERROR: {e}")
+        print(f"ERROR: {e}")
+        logging.error(f"ERROR START: {e}")
     
     if result:
         logging.info("Data recovered from cache.")
+        print(f'YES: {result}')
         return result
     else:
         result = round(
@@ -30,6 +32,7 @@ async def process_orders(orders: List[Order] = Body(description="Orders list of 
             redis_client.set(orders, result, ex=3600)
             logging.info("Cached data.")
         except Exception as e:
+            print(f"ERROR END: {e}")
             logging.error(f"ERROR: {e}")
         finally:
             return result
